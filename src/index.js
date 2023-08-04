@@ -1,6 +1,7 @@
-module.exports = function toReadable (number) {
+module.exports = function toReadable(number) {
   const words = [
-    '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
+    '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+    'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
   ];
 
   const tens = [
@@ -12,13 +13,13 @@ module.exports = function toReadable (number) {
   } else if (number < 20) {
     return words[number];
   } else if (number < 100) {
-    const tensPart = tens[Math.floor(number / 10)];
-    const onesPart = words[number % 10];
-    return onesPart !== 'zero' ? `${tensPart} ${onesPart}` : tensPart;
+    return `${tens[Math.floor(number / 10)]} ${words[number % 10]}`.trim();
   } else {
-    const hundredsPart = `${words[Math.floor(number / 100)]} hundred`;
-    const remainingPart = toReadable(number % 100);
-    const zeroPart = number % 100 === 0 ? 'zero' : '';
-    return `${hundredsPart}${remainingPart !== 'zero' ? ' ' : ''}${remainingPart}${zeroPart !== '' ? ' ' : ''}${zeroPart}`;
+    const remainder = number % 100;
+    if (remainder === 0) {
+      return `${words[Math.floor(number / 100)]} hundred`.trim();
+    } else {
+      return `${words[Math.floor(number / 100)]} hundred ${toReadable(remainder)}`.trim();
+    }
   }
-} 
+}
